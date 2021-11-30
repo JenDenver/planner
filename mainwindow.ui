@@ -15,7 +15,14 @@
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QGridLayout" name="gridLayout">
-    <item row="0" column="1" rowspan="3">
+    <item row="1" column="0">
+     <widget class="QPushButton" name="NewTaskButton">
+      <property name="text">
+       <string>New task</string>
+      </property>
+     </widget>
+    </item>
+    <item row="0" column="1" rowspan="6">
      <widget class="clndr" name="cwidget" native="true">
       <property name="sizePolicy">
        <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
@@ -25,19 +32,247 @@
       </property>
      </widget>
     </item>
-    <item row="1" column="0">
-     <layout class="QHBoxLayout" name="horizontalLayout_2">
+    <item row="3" column="0">
+     <layout class="QVBoxLayout" name="EditLayout">
       <item>
-       <widget class="QPushButton" name="EditButton">
-        <property name="text">
-         <string>Edit task</string>
-        </property>
-       </widget>
+       <layout class="QHBoxLayout" name="horizontalLayout_4">
+        <item>
+         <widget class="QLabel" name="nameLabel">
+          <property name="text">
+           <string>Название:</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLineEdit" name="NameEdit"/>
+        </item>
+        <item>
+         <widget class="QComboBox" name="colorBox">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <item>
+           <property name="text">
+            <string>lightskyblue</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>mediumaquamarine</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>lightcoral</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>lemonchiffon</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>white</string>
+           </property>
+          </item>
+         </widget>
+        </item>
+       </layout>
       </item>
       <item>
-       <widget class="QPushButton" name="DeleteButton">
+       <layout class="QHBoxLayout" name="horizontalLayout_5">
+        <item>
+         <widget class="QLabel" name="dateLabel">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="text">
+           <string>Дата:</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QDateEdit" name="DateEdit">
+          <property name="dateTime">
+           <datetime>
+            <hour>0</hour>
+            <minute>0</minute>
+            <second>0</second>
+            <year>2021</year>
+            <month>1</month>
+            <day>1</day>
+           </datetime>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QComboBox" name="HourEdit">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <item>
+           <property name="text">
+            <string>00</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>01</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>02</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>03</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>04</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>05</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>06</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>07</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>08</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>09</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>10</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>11</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>12</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>13</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>14</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>15</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>16</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>17</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>18</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>19</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>20</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>21</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>22</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>23</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string/>
+           </property>
+          </item>
+         </widget>
+        </item>
+        <item>
+         <widget class="QComboBox" name="MinuteEdit">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <item>
+           <property name="text">
+            <string>00</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>30</string>
+           </property>
+          </item>
+         </widget>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <widget class="QPushButton" name="SaveTaskButton">
         <property name="text">
-         <string>Delete task</string>
+         <string>Save task</string>
         </property>
        </widget>
       </item>
@@ -47,26 +282,24 @@
      <widget class="QCalendarWidget" name="calendarWidget"/>
     </item>
     <item row="2" column="0">
-     <layout class="QVBoxLayout" name="verticalLayout">
+     <layout class="QHBoxLayout" name="horizontalLayout_2">
       <item>
-       <widget class="QLineEdit" name="tNameEdit"/>
-      </item>
-      <item>
-       <widget class="QDateEdit" name="tDateEdit"/>
-      </item>
-      <item>
-       <widget class="QTimeEdit" name="tStartEdit"/>
-      </item>
-      <item>
-       <widget class="QTimeEdit" name="tLengthEdit"/>
-      </item>
-      <item>
-       <widget class="QLineEdit" name="tColorEdit"/>
-      </item>
-      <item>
-       <widget class="QPushButton" name="SaveTaskButton">
+       <widget class="QPushButton" name="EditButton">
+        <property name="enabled">
+         <bool>false</bool>
+        </property>
         <property name="text">
-         <string>Save task</string>
+         <string>Edit task</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="DeleteButton">
+        <property name="enabled">
+         <bool>false</bool>
+        </property>
+        <property name="text">
+         <string>Delete task</string>
         </property>
        </widget>
       </item>
@@ -80,7 +313,7 @@
      <x>0</x>
      <y>0</y>
      <width>800</width>
-     <height>20</height>
+     <height>21</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuF">

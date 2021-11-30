@@ -5,19 +5,9 @@
 
 clndr::clndr(QWidget* parent) : QWidget(parent)
 {
-
-    /*t_name = "test";
-    t_date = QDate::currentDate();
-    t_start = 4;
-    t_length = 5;
-    t_color = "blue";*/
     setTable();
-    load("D:\\save.txt");
-    //setCurrDay(QDate::currentDate());
-    //addTask();
-    //draw();
-
-
+    setCurrDay(QDate::currentDate(),false);
+    load("E:\\Repo\\planner\\save.txt");
 }
 
 clndr::~clndr()
@@ -74,8 +64,7 @@ void clndr::clear()
 {
     tasklist.clear();
     daylist.clear();
-    setCurrDay(QDate::currentDate());
-    clndr::draw();
+    setCurrDay(QDate::currentDate(),true);
 }
 void clndr::deleteTask(Task *t)
 {
@@ -93,7 +82,7 @@ void clndr::editTask(Task *t)
       found->removeTask(t);
       found = findDay(t_date);
       found->setTask(t);
-      setCurrDay(t_date);
+      setCurrDay(found);
     }
     t->setDate(t_date);
     t->setLength(t_length);
@@ -101,18 +90,26 @@ void clndr::editTask(Task *t)
     t->setStart(t_start);
     clndr::draw();
 }
-void clndr::addTask()
+void clndr::addTask(bool doDraw)
 {
     tasklist.push_front(new Task(t_name, t_date, t_start, t_length, t_color));
     Day  *found = findDay(t_date);
     found->setTask(tasklist.front());
     //daylist.front().setTask(&tasklist.front());
-    clndr::draw();
+    if (doDraw)
+        clndr::draw();
 }
-void clndr::setCurrDay(QDate date)
+void clndr::setCurrDay(QDate date,bool doDraw)
 {
     currDay = findDay(date);
-    clndr::draw();
+    if (doDraw)
+        clndr::draw();
+}
+void clndr::setCurrDay(Day *day,bool doDraw)
+{
+    currDay = day;
+    if (doDraw)
+        clndr::draw();
 }
 void clndr::save()
 {
@@ -138,7 +135,7 @@ void clndr::load(QString s)
 {
     tasklist.clear();
     daylist.clear();
-    setCurrDay(QDate::currentDate());
+    setCurrDay(QDate::currentDate(),false);
     QFile file(s);
     if (!file.open(QIODevice::ReadOnly))
       return;
@@ -154,7 +151,7 @@ void clndr::load(QString s)
       t_start = fields[2].toInt();
       t_length = fields[3].toInt();
       t_color = fields[4];
-      addTask();
+      addTask(false);
     }
     file.close();
     clndr::draw();

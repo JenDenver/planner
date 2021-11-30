@@ -23,15 +23,16 @@ public slots:
   void clear();
   void deleteTask(Task *);
   void editTask(Task *);
-  void addTask();
-  void setCurrDay(QDate d);
+  void addTask(bool doDraw = true);
+  void setCurrDay(QDate d,bool doDraw = true);
+  void setCurrDay(Day *day,bool doDraw = true);
   void setTname(QString n);
   void setTstart(int s);
   void setTlength(int l);
   void setTdate(QDate d);
   void setTcolor(QString s);
   void save();
-  void load(QString s = "save.txt");
+  void load(QString s = "E:\\Repo\\planner\\save.txt");
 private:
   QString t_name;
   int t_start = 0;
