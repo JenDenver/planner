@@ -3,7 +3,7 @@
 #include "clndr.h"
 #include <QTableWidget>
 
-clndr::clndr(QWidget* parent) : QWidget(parent)
+clndr::clndr(QWidget* parent) : QTableWidget(parent)
 {
     setTable();
     setCurrDay(QDate::currentDate(),false);
@@ -159,20 +159,20 @@ void clndr::load()
 }
 void clndr::setTable()
 {
-    _layout = new QHBoxLayout(this);
+    //_layout = new QHBoxLayout(this);
 
-    calTable = new QTableWidget(this);
-    calTable->setColumnCount(2);
-    calTable->setRowCount(48);
+    //calTable = new QTableWidget(this);
+    setColumnCount(2);
+    setRowCount(48);
     //calTable->show();
 
-    _layout->addWidget(calTable);
-    setLayout(_layout);
+    //_layout->addWidget(calTable);
+    //setLayout(_layout);
 
     QTime ttime(0,0,0,0);
     for (int i=0;i<48;i++)
     {
-        calTable->setItem(i,0, new QTableWidgetItem(ttime.toString("hh:mm")));
+        setItem(i,0, new QTableWidgetItem(ttime.toString("hh:mm")));
         ttime = ttime.addSecs(1800);
     }
 }
@@ -190,7 +190,7 @@ void clndr::draw()
             {
                 s = (currDay->getElement(i))->getName();
                 QTableWidgetItem *item = new QTableWidgetItem(s);
-                calTable->setItem((i+j),1,item);
+                setItem((i+j),1,item);
                 //calTable->setItem(i+j,1, new QTableWidgetItem((currDay->getElement(i))->getName()));
                 j++;
             } while (j<(currDay->getElement(i))->getLength());

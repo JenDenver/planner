@@ -11,6 +11,7 @@ CONFIG += c++11
 SOURCES += \
     clndr.cpp \
     day.cpp \
+    logic.cpp \
     main.cpp \
     mainwindow.cpp \
     task.cpp
@@ -18,6 +19,7 @@ SOURCES += \
 HEADERS += \
     clndr.h \
     day.h \
+    logic.h \
     mainwindow.h \
     task.h
 
