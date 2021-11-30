@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>800</width>
+    <height>600</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>MainWindow</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <widget class="clndr" name="cwidget" native="true">
+    <property name="geometry">
+     <rect>
+      <x>270</x>
+      <y>0</y>
+      <width>461</width>
+      <height>391</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QCalendarWidget" name="calendarWidget">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>80</y>
+      <width>224</width>
+      <height>163</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QWidget" name="horizontalLayoutWidget_2">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>250</y>
+      <width>221</width>
+      <height>24</height>
+     </rect>
+    </property>
+    <layout class="QHBoxLayout" name="horizontalLayout_2">
+     <item>
+      <widget class="QPushButton" name="EditButton">
+       <property name="text">
+        <string>Edit task</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="DeleteButton">
+       <property name="text">
+        <string>Delete task</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </widget>
+   <widget class="QWidget" name="verticalLayoutWidget">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>280</y>
+      <width>251</width>
+      <height>191</height>
+     </rect>
+    </property>
+    <layout class="QVBoxLayout" name="verticalLayout">
+     <item>
+      <widget class="QLineEdit" name="tNameEdit"/>
+     </item>
+     <item>
+      <widget class="QDateEdit" name="tDateEdit"/>
+     </item>
+     <item>
+      <widget class="QTimeEdit" name="tStartEdit"/>
+     </item>
+     <item>
+      <widget class="QTimeEdit" name="tLengthEdit"/>
+     </item>
+     <item>
+      <widget class="QLineEdit" name="tColorEdit"/>
+     </item>
+     <item>
+      <widget class="QPushButton" name="SaveTaskButton">
+       <property name="text">
+        <string>Save task</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </widget>
+  </widget>
+  <widget class="QMenuBar" name="menubar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>800</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="menuF">
+    <property name="title">
+     <string>меню</string>
+    </property>
+    <addaction name="SaveAction"/>
+    <addaction name="LoadAction"/>
+    <addaction name="separator"/>
+    <addaction name="ExitAction"/>
+   </widget>
+   <addaction name="menuF"/>
+  </widget>
+  <widget class="QStatusBar" name="statusbar"/>
+  <action name="actionopen">
+   <property name="text">
+    <string>open</string>
+   </property>
+  </action>
+  <action name="SaveAction">
+   <property name="text">
+    <string>сохранить</string>
+   </property>
+  </action>
+  <action name="LoadAction">
+   <property name="text">
+    <string>загрузить</string>
+   </property>
+  </action>
+  <action name="ExitAction">
+   <property name="text">
+    <string>выход</string>
+   </property>
+  </action>
+ </widget>
+ <customwidgets>
+  <customwidget>
+   <class>clndr</class>
+   <extends>QWidget</extends>
+   <header location="global">clndr.h</header>
+   <container>1</container>
+   <slots>
+    <slot>save()</slot>
+    <slot>slot1()</slot>
+    <slot>deleteTask()</slot>
+    <slot>slot2()</slot>
+   </slots>
+  </customwidget>
+ </customwidgets>
+ <resources/>
+ <connections>
+  <connection>
+   <sender>ExitAction</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>close()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>399</x>
+     <y>299</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+</ui>
