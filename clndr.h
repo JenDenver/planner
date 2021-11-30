@@ -7,6 +7,8 @@
 #include "day.h"
 #include "task.h"
 
+#include <QHBoxLayout>
+
 class clndr :public QWidget {
   Q_OBJECT
 public:
@@ -15,6 +17,7 @@ public:
   void draw();
   void setTable();
   Day *findDay(QDate d);
+  Day* getDay(const QDate& d);
 
 public slots:
   void clear();
@@ -38,6 +41,7 @@ private:
   QList<Task> tasklist;
   QList<Day> daylist;
   Day *currDay;
+  QHBoxLayout* _layout = nullptr;
   QTableWidget *calTable;
 };
 #endif // COUNTER_H
