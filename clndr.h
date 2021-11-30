@@ -32,7 +32,8 @@ public slots:
   void setTdate(QDate d);
   void setTcolor(QString s);
   void save();
-  void load(QString s = "E:\\Repo\\planner\\save.txt");
+  void load();
+  void taskClicked(int, int);
 private:
   QString t_name;
   int t_start = 0;
@@ -44,6 +45,7 @@ private:
   QList<Day*> daylist;
 
   Day *currDay = nullptr;
+  Task *currTask = nullptr;
 
   QHBoxLayout* _layout = nullptr;
   QTableWidget *calTable = nullptr;

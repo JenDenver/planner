@@ -7,7 +7,7 @@ clndr::clndr(QWidget* parent) : QWidget(parent)
 {
     setTable();
     setCurrDay(QDate::currentDate(),false);
-    load("E:\\Repo\\planner\\save.txt");
+    load();
 }
 
 clndr::~clndr()
@@ -131,11 +131,12 @@ void clndr::save()
 
     file.close();
 }
-void clndr::load(QString s)
+void clndr::load()
 {
     tasklist.clear();
     daylist.clear();
     setCurrDay(QDate::currentDate(),false);
+    QString s= "E:\\Repo\\planner\\save.txt";
     QFile file(s);
     if (!file.open(QIODevice::ReadOnly))
       return;
@@ -196,4 +197,9 @@ void clndr::draw()
             i = i + (currDay->getElement(i))->getLength();
         }
     }
+}
+void clndr::taskClicked(int row,int column)
+{
+    currTask = currDay->getElement(row);
+
 }
