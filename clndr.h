@@ -34,14 +34,17 @@ public slots:
   void load(QString s = "save.txt");
 private:
   QString t_name;
-  int t_start;
-  int t_length;
+  int t_start = 0;
+  int t_length = 0;
   QDate t_date;
   QString t_color;
-  QList<Task> tasklist;
-  QList<Day> daylist;
-  Day *currDay;
+
+  QList<Task*> tasklist;
+  QList<Day*> daylist;
+
+  Day *currDay = nullptr;
+
   QHBoxLayout* _layout = nullptr;
-  QTableWidget *calTable;
+  QTableWidget *calTable = nullptr;
 };
 #endif // COUNTER_H

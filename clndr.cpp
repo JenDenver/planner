@@ -12,26 +12,42 @@ clndr::clndr(QWidget* parent) : QWidget(parent)
     t_length = 5;
     t_color = "blue";*/
     setTable();
-    load("В:\\save.txt");
+    load("D:\\save.txt");
     //setCurrDay(QDate::currentDate());
     //addTask();
     //draw();
 
 
 }
+
 clndr::~clndr()
 {
     //delete calTable;
+    while(!tasklist.isEmpty())
+        delete tasklist.takeFirst();
+    while(!daylist.isEmpty())
+        delete daylist.takeFirst();
 }
-Day *clndr::findDay(QDate d)
+
+Day *clndr::findDay(QDate date)
 {
-    bool found = daylist.contains(d);
-    if (!found)
+    Day* day = nullptr;
+    for (auto& d : daylist)
     {
-        daylist.push_front(Day(d));
-        return &daylist.front();
+        if (d->getDate() == date)
+        {
+            day = d;
+            break;
+        }
     }
-    return &daylist[daylist.indexOf(d)];
+
+    if (day == nullptr)
+    {
+        day = new Day(date);
+        daylist.push_front(day);
+    }
+
+    return day;
 }
 
 void clndr::setTname(QString n)
@@ -65,7 +81,7 @@ void clndr::deleteTask(Task *t)
 {
     Day *d = findDay(t->getDate());
     d->removeTask(t);
-    tasklist.removeOne(*t);
+    tasklist.removeOne(t);
     clndr::draw();
 }
 void clndr::editTask(Task *t)
@@ -87,37 +103,35 @@ void clndr::editTask(Task *t)
 }
 void clndr::addTask()
 {
-    tasklist.push_front(Task(t_name, t_date, t_start, t_length, t_color));
+    tasklist.push_front(new Task(t_name, t_date, t_start, t_length, t_color));
     Day  *found = findDay(t_date);
-    found->setTask(&tasklist.front());
+    found->setTask(tasklist.front());
     //daylist.front().setTask(&tasklist.front());
     clndr::draw();
 }
-void clndr::setCurrDay(QDate d)
+void clndr::setCurrDay(QDate date)
 {
-    bool found = daylist.contains(d);
-    if (!found)
-    {
-      currDay =  findDay(d);
-    }
-    currDay = &daylist[daylist.indexOf(d)];
+    currDay = findDay(date);
     clndr::draw();
 }
 void clndr::save()
 {
     if (QFile::exists("save.txt"))
        QFile::remove("save.txt");
+
     QFile file("save.txt");
     file.open(QIODevice::WriteOnly);
     QTextStream out(&file);
+
     for (auto &el: tasklist)
     {
-       out << el.getName()<<" ";
-       out << el.getDate().toString("yyyy.MM.dd")<<" ";
-       out << el.getStart()<<" ";
-       out << el.getLength()<<" ";
-       out << el.getColor()<<"\n";
+        out << el->getName()<<" ";
+       out << el->getDate().toString("yyyy.MM.dd")<<" ";
+       out << el->getStart()<<" ";
+       out << el->getLength()<<" ";
+       out << el->getColor()<<"\n";
     }
+
     file.close();
 }
 void clndr::load(QString s)
