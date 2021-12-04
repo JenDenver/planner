@@ -7,13 +7,11 @@
 #include "day.h"
 #include "task.h"
 
-#include <QHBoxLayout>
-
-class clndr :public QWidget {
+class calendar :public QTableWidget {
   Q_OBJECT
 public:
-  clndr(QWidget* parent=0);
-  ~clndr();
+  calendar(QWidget* parent=0);
+  ~calendar();
   void draw();
   void setTable();
   Day *findDay(QDate d);
@@ -47,7 +45,5 @@ private:
   Day *currDay = nullptr;
   Task *currTask = nullptr;
 
-  QHBoxLayout* _layout = nullptr;
-  QTableWidget *calTable = nullptr;
 };
 #endif // COUNTER_H

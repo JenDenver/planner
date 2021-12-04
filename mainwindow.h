@@ -2,6 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QTableWidget>
 #include "task.h"
 
 QT_BEGIN_NAMESPACE
@@ -18,6 +19,8 @@ public:
     void clickedTask(Task *t);
 
 private slots:
+
+    void on_cWidget_itemClicked(QTableWidgetItem* item);
 
 private:
     Ui::MainWindow *ui;

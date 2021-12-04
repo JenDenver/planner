@@ -5,7 +5,7 @@
 #include <QPushButton>
 #include <QVBoxLayout>
 #include "mainwindow.h"
-#include "clndr.h"
+#include "calendar.h"
 int main(int argc, char *argv[])
 {
    QApplication app(argc, argv);

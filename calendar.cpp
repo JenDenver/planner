@@ -1,25 +1,25 @@
 #include "task.h"
 #include "day.h"
-#include "clndr.h"
+#include "calendar.h"
 #include <QTableWidget>
+#include <QTextStream>
 
-clndr::clndr(QWidget* parent) : QWidget(parent)
+calendar::calendar(QWidget* parent) : QTableWidget(parent)
 {
     setTable();
     setCurrDay(QDate::currentDate(),false);
     load();
 }
 
-clndr::~clndr()
+calendar::~calendar()
 {
-    //delete calTable;
     while(!tasklist.isEmpty())
         delete tasklist.takeFirst();
     while(!daylist.isEmpty())
         delete daylist.takeFirst();
 }
 
-Day *clndr::findDay(QDate date)
+Day *calendar::findDay(QDate date)
 {
     Day* day = nullptr;
     for (auto& d : daylist)
@@ -40,40 +40,40 @@ Day *clndr::findDay(QDate date)
     return day;
 }
 
-void clndr::setTname(QString n)
+void calendar::setTname(QString n)
 {
     t_name = n;
 }
-void clndr::setTstart(int s)
+void calendar::setTstart(int s)
 {
     t_start = s;
 }
-void clndr::setTlength(int l)
+void calendar::setTlength(int l)
 {
     t_length = l;
 }
-void clndr::setTdate(QDate d)
+void calendar::setTdate(QDate d)
 {
     t_date = d;
 }
-void clndr::setTcolor(QString s)
+void calendar::setTcolor(QString s)
 {
     t_color = s;
 }
-void clndr::clear()
+void calendar::clear()
 {
     tasklist.clear();
     daylist.clear();
     setCurrDay(QDate::currentDate(),true);
 }
-void clndr::deleteTask(Task *t)
+void calendar::deleteTask(Task *t)
 {
     Day *d = findDay(t->getDate());
     d->removeTask(t);
     tasklist.removeOne(t);
-    clndr::draw();
+    calendar::draw();
 }
-void clndr::editTask(Task *t)
+void calendar::editTask(Task *t)
 {
     t->setColor(t_color);
     if (t->getDate() != t_date)
@@ -88,50 +88,56 @@ void clndr::editTask(Task *t)
     t->setLength(t_length);
     t->setName(t_name);
     t->setStart(t_start);
-    clndr::draw();
+    calendar::draw();
 }
-void clndr::addTask(bool doDraw)
+void calendar::addTask(bool doDraw)
 {
     tasklist.push_front(new Task(t_name, t_date, t_start, t_length, t_color));
     Day  *found = findDay(t_date);
     found->setTask(tasklist.front());
-    //daylist.front().setTask(&tasklist.front());
     if (doDraw)
-        clndr::draw();
+        calendar::draw();
 }
-void clndr::setCurrDay(QDate date,bool doDraw)
+void calendar::setCurrDay(QDate date,bool doDraw)
 {
     currDay = findDay(date);
     if (doDraw)
-        clndr::draw();
+        calendar::draw();
 }
-void clndr::setCurrDay(Day *day,bool doDraw)
+void calendar::setCurrDay(Day *day,bool doDraw)
 {
     currDay = day;
     if (doDraw)
-        clndr::draw();
+        calendar::draw();
 }
-void clndr::save()
+void calendar::save()
 {
-    if (QFile::exists("save.txt"))
-       QFile::remove("save.txt");
+    if (QFile::exists("E:\\Repo\\planner\\save.txt"))
+       QFile::remove("E:\\Repo\\planner\\save.txt");
 
-    QFile file("save.txt");
+    QFile file("E:\\Repo\\planner\\save.txt");
     file.open(QIODevice::WriteOnly);
     QTextStream out(&file);
-
+    QString tempString;
     for (auto &el: tasklist)
     {
-        out << el->getName()<<" ";
-       out << el->getDate().toString("yyyy.MM.dd")<<" ";
-       out << el->getStart()<<" ";
-       out << el->getLength()<<" ";
-       out << el->getColor()<<"\n";
+       tempString.append(el->getName());
+       tempString.append(" ");
+       tempString.append(el->getDate().toString("yyyy.MM.dd"));
+       tempString.append(" ");
+       tempString.append(QString::number(el->getStart()));
+       tempString.append(" ");
+       tempString.append(QString::number(el->getLength()));
+       tempString.append(" ");
+       tempString.append(el->getColor());
+       tempString.append("\n");
+       out << tempString;
+       tempString.clear();
     }
-
     file.close();
+
 }
-void clndr::load()
+void calendar::load()
 {
     tasklist.clear();
     daylist.clear();
@@ -147,6 +153,8 @@ void clndr::load()
     for( auto &x : strl )
     {
       fields = x.split(" ");
+      if (fields[0] == "\n")
+          break;
       t_name = fields[0];
       t_date = QDate::fromString(fields[1],"yyyy.MM.dd");
       t_start = fields[2].toInt();
@@ -155,28 +163,22 @@ void clndr::load()
       addTask(false);
     }
     file.close();
-    clndr::draw();
+    calendar::draw();
 }
-void clndr::setTable()
+void calendar::setTable()
 {
-    _layout = new QHBoxLayout(this);
 
-    calTable = new QTableWidget(this);
-    calTable->setColumnCount(2);
-    calTable->setRowCount(48);
-    //calTable->show();
-
-    _layout->addWidget(calTable);
-    setLayout(_layout);
+    setColumnCount(2);
+    setRowCount(48);
 
     QTime ttime(0,0,0,0);
     for (int i=0;i<48;i++)
     {
-        calTable->setItem(i,0, new QTableWidgetItem(ttime.toString("hh:mm")));
+        setItem(i,0, new QTableWidgetItem(ttime.toString("hh:mm")));
         ttime = ttime.addSecs(1800);
     }
 }
-void clndr::draw()
+void calendar::draw()
 {
   QString s;
   for (int i=0;i<48;i++)
@@ -190,15 +192,14 @@ void clndr::draw()
             {
                 s = (currDay->getElement(i))->getName();
                 QTableWidgetItem *item = new QTableWidgetItem(s);
-                calTable->setItem((i+j),1,item);
-                //calTable->setItem(i+j,1, new QTableWidgetItem((currDay->getElement(i))->getName()));
+                setItem((i+j),1,item);
                 j++;
             } while (j<(currDay->getElement(i))->getLength());
             i = i + (currDay->getElement(i))->getLength();
         }
     }
 }
-void clndr::taskClicked(int row,int column)
+void calendar::taskClicked(int row,int column)
 {
     currTask = currDay->getElement(row);
 
