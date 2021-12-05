@@ -16,14 +16,15 @@ public:
   void setTable();
   Day *findDay(QDate d);
   Day* getDay(const QDate& d);
-
+  Task* getCurrTask();
 public slots:
   void clear();
-  void deleteTask(Task *);
+  void deleteTask();
   void editTask(Task *);
   void addTask(bool doDraw = true);
   void setCurrDay(QDate d,bool doDraw = true);
   void setCurrDay(Day *day,bool doDraw = true);
+  void setCurrTask(int);
   void setTname(QString n);
   void setTstart(int s);
   void setTlength(int l);
@@ -31,7 +32,6 @@ public slots:
   void setTcolor(QString s);
   void save();
   void load();
-  void taskClicked(int, int);
 private:
   QString t_name;
   int t_start = 0;

@@ -4,6 +4,7 @@
 #include <QMainWindow>
 #include <QTableWidget>
 #include "task.h"
+#include "calendar.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -16,12 +17,12 @@ class MainWindow : public QMainWindow
 public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
-    void clickedTask(Task *t);
-
+signals:
+    void MW_setCurrTask(int);
 private slots:
 
-    void on_cWidget_itemClicked(QTableWidgetItem* item);
-
+    void on_cWidget_cellClicked(int, int);
+    void EditButton_clicked();
 private:
     Ui::MainWindow *ui;
 };

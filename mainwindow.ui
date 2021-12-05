@@ -271,6 +271,9 @@
       </item>
       <item>
        <widget class="QPushButton" name="SaveTaskButton">
+        <property name="enabled">
+         <bool>false</bool>
+        </property>
         <property name="text">
          <string>Save task</string>
         </property>
@@ -356,6 +359,7 @@
    <header location="global">calendar.h</header>
    <container>1</container>
    <slots>
+    <signal>cellClicked()</signal>
     <slot>save()</slot>
     <slot>slot1()</slot>
     <slot>deleteTask()</slot>

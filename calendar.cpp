@@ -3,7 +3,8 @@
 #include "calendar.h"
 #include <QTableWidget>
 #include <QTextStream>
-
+#include <QColor>
+#include <QHeaderView>
 calendar::calendar(QWidget* parent) : QTableWidget(parent)
 {
     setTable();
@@ -66,11 +67,15 @@ void calendar::clear()
     daylist.clear();
     setCurrDay(QDate::currentDate(),true);
 }
-void calendar::deleteTask(Task *t)
+Task * calendar::getCurrTask()
 {
-    Day *d = findDay(t->getDate());
-    d->removeTask(t);
-    tasklist.removeOne(t);
+    return currTask;
+}
+void calendar::deleteTask()
+{
+    currDay->removeTask(currTask);
+    tasklist.removeOne(currTask);
+    currTask = nullptr;
     calendar::draw();
 }
 void calendar::editTask(Task *t)
@@ -110,6 +115,11 @@ void calendar::setCurrDay(Day *day,bool doDraw)
     if (doDraw)
         calendar::draw();
 }
+void calendar::setCurrTask(int r)
+{
+    if (currDay->getElement(r) != nullptr)
+        currTask = currDay->getElement(r);
+}
 void calendar::save()
 {
     if (QFile::exists("E:\\Repo\\planner\\save.txt"))
@@ -118,21 +128,13 @@ void calendar::save()
     QFile file("E:\\Repo\\planner\\save.txt");
     file.open(QIODevice::WriteOnly);
     QTextStream out(&file);
-    QString tempString;
     for (auto &el: tasklist)
     {
-       tempString.append(el->getName());
-       tempString.append(" ");
-       tempString.append(el->getDate().toString("yyyy.MM.dd"));
-       tempString.append(" ");
-       tempString.append(QString::number(el->getStart()));
-       tempString.append(" ");
-       tempString.append(QString::number(el->getLength()));
-       tempString.append(" ");
-       tempString.append(el->getColor());
-       tempString.append("\n");
-       out << tempString;
-       tempString.clear();
+               out << el->getName()<<" ";
+               out << el->getDate().toString("yyyy.MM.dd")<<" ";
+               out << el->getStart()<<" ";
+               out << el->getLength()<<" ";
+               out << el->getColor()<<"\n";
     }
     file.close();
 
@@ -154,7 +156,7 @@ void calendar::load()
     {
       fields = x.split(" ");
       if (fields[0] == "\n")
-          break;
+          continue;
       t_name = fields[0];
       t_date = QDate::fromString(fields[1],"yyyy.MM.dd");
       t_start = fields[2].toInt();
@@ -170,7 +172,8 @@ void calendar::setTable()
 
     setColumnCount(2);
     setRowCount(48);
-
+    horizontalHeader()->setVisible(false);
+    verticalHeader()->setVisible(false);
     QTime ttime(0,0,0,0);
     for (int i=0;i<48;i++)
     {
@@ -192,15 +195,13 @@ void calendar::draw()
             {
                 s = (currDay->getElement(i))->getName();
                 QTableWidgetItem *item = new QTableWidgetItem(s);
+                /*QColor c;
+                c.setNamedColor(currDay->getElement(i)->getColor());
+                item->setBackground(c);*/
                 setItem((i+j),1,item);
                 j++;
             } while (j<(currDay->getElement(i))->getLength());
             i = i + (currDay->getElement(i))->getLength();
         }
     }
-}
-void calendar::taskClicked(int row,int column)
-{
-    currTask = currDay->getElement(row);
-
 }
