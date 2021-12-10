@@ -3,13 +3,13 @@
 #include "task.h"
 
 
-    Task::Task(QString n, QDate d, int s, int l, QString clrname)
+    Task::Task(QString n, QDate d, int s, int l, QColor c)
     {
         name = n;
         start = s;
         length = l;
         date = d;
-        color = clrname;
+        color = c;
     }
     void Task::setName(QString n)
     {
@@ -43,11 +43,11 @@
     {
         return date;
     }
-    void Task::setColor(QString &c)
+    void Task::setColor(QColor c)
     {
         color = c;
     }
-    QString Task::getColor()
+    QColor Task::getColor()
     {
         return color;
     }

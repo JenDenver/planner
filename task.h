@@ -5,7 +5,7 @@
 class Task
 {
 public:
-    Task(QString = " test ", QDate = QDate::currentDate(), int = 4, int = 1, const QString = "blue");
+    Task(QString, QDate, int, int, QColor);
     void setName(QString n);
     QString getName();
     void setStart(int s);
@@ -14,8 +14,8 @@ public:
     int getLength();
     void setDate(QDate d);
     QDate getDate();
-    void setColor(QString &c);
-    QString getColor();
+    void setColor(QColor c);
+    QColor getColor();
     friend bool operator== (const Task &t1, const Task &t2)
     {
             return (t1.name==t2.name);
@@ -25,6 +25,6 @@ private:
     int start;
     int length;
     QDate date;
-    QString color;
+    QColor color;
 };
 #endif // TASK_H

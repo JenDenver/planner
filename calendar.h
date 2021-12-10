@@ -12,7 +12,7 @@ class calendar :public QTableWidget {
 public:
   calendar(QWidget* parent=0);
   ~calendar();
-  void draw();
+  void draw(bool firstDraw = false);
   void setTable();
   Day *findDay(QDate d);
   Day* getDay(const QDate& d);
@@ -25,20 +25,23 @@ public slots:
   void setCurrDay(QDate d,bool doDraw = true);
   void setCurrDay(Day *day,bool doDraw = true);
   void setCurrTask(int);
-  void setTname(QString n);
-  void setTstart(int s);
-  void setTlength(int l);
+  void setTname(QString n = "новая задача");
+  void setTstartH(int s);
+  void setTstartM(int s);
+  void setTlengthH(int l);
+  void setTlengthM(int l);
   void setTdate(QDate d);
-  void setTcolor(QString s);
+  void setTcolor(QColor s);
+  void setPar(int, bool);
   void save();
   void load();
 private:
-  QString t_name;
+  QString t_name = "Новая задача";
+  QDate t_date = QDate::currentDate();
   int t_start = 0;
-  int t_length = 0;
-  QDate t_date;
-  QString t_color;
-
+  int t_length = 1;
+  QColor t_color = Qt::blue;
+  QList<bool> ParList{false,false,false,false,false};  //name, date, start, length, color
   QList<Task*> tasklist;
   QList<Day*> daylist;
 

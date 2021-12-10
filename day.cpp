@@ -19,7 +19,7 @@
     }
     void Day::removeTask(Task *t)
     {
-        for (int i=t->getStart();i<=(t->getLength()+t->getStart());i++)
+        for (int i=t->getStart();i<(t->getLength()+t->getStart());i++)
             table[i]=nullptr;
     }
     Task *Day::getElement(int pos)

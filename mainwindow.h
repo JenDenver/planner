@@ -20,10 +20,23 @@ public:
 signals:
     void MW_setCurrTask(int);
 private slots:
-
+    void hideForm();
+    void showForm();
+    void SaveExitAction_clicked();
     void on_cWidget_cellClicked(int, int);
-    void EditButton_clicked();
+    void EditButton_Clicked();
+    void DeleteButton_Clicked();
+    void NewTask_Clicked();
+    void NameEdit_Changed();
+    void ChooseColor_Clicked();
+    void DateEdit_changed();
+    void StartHourEdit_changed();
+    void StartMinuteEdit_changed();
+    void LengthHourEdit_changed();
+    void LengthMinuteEdit_changed();
+    void SaveButton_clicked();
 private:
     Ui::MainWindow *ui;
+
 };
 #endif // MAINWINDOW_H
