@@ -11,6 +11,7 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
     hideForm();
+
     connect(ui->SaveExitAction, &QAction::triggered, this, &MainWindow::SaveExitAction_clicked);
     connect(ui->ExitAction, &QAction::triggered, this, &MainWindow::close);
     connect(ui->LoadAction, &QAction::triggered, ui->cwidget, &calendar::load);
@@ -29,6 +30,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->LengthHourEdit,&QComboBox::currentTextChanged, this, &MainWindow::LengthHourEdit_changed);
     connect(ui->LengthMinuteEdit,&QComboBox::currentTextChanged, this, &MainWindow::LengthMinuteEdit_changed);
     connect(ui->SaveTaskButton,&QPushButton::clicked, this, &MainWindow::SaveButton_clicked);
+    connect(ui->calendarWidget,&QCalendarWidget::clicked,this, &MainWindow::CalendarDate_clicked);
 }
 
 MainWindow::~MainWindow()
@@ -77,8 +79,10 @@ void MainWindow::NewTask_Clicked()
     ui->cwidget->setCurrTask(-1);
 
     ui->DateEdit->setDate(QDate::currentDate());
+    ui->cwidget->setTdate(QDate::currentDate());
     ui->NameEdit->setText("новая задача");
-    ui->StartHourEdit->setCurrentIndex(QTime::currentTime().hour()*2);
+    ui->cwidget->setTname("новая задача");
+    ui->StartHourEdit->setCurrentIndex(QTime::currentTime().hour());
     ui->StartMinuteEdit->setCurrentIndex(0);
     ui->LengthHourEdit->setCurrentIndex(1);
     ui->LengthMinuteEdit->setCurrentIndex(0);
@@ -116,6 +120,7 @@ void MainWindow::DeleteButton_Clicked()
 void MainWindow::on_cWidget_cellClicked(int row, int column)
 {
     emit MW_setCurrTask(row);
+    ui->calendarWidget->setSelectedDate(ui->cwidget->getCurrDate());
     if (ui->cwidget->getCurrTask() != nullptr)
     {
         QString s = ui->cwidget->getCurrTask()->getName();
@@ -171,6 +176,7 @@ void MainWindow::LengthMinuteEdit_changed()
 }
 void MainWindow::SaveButton_clicked()
 {
+    ui->calendarWidget->setSelectedDate(ui->cwidget->getCurrDate());
     if (ui->cwidget->getCurrTask()==nullptr)
         ui->cwidget->addTask();
     else
@@ -178,4 +184,10 @@ void MainWindow::SaveButton_clicked()
     hideForm();
     for (int i=0; i<5; i++)
         ui->cwidget->setPar(i,false);
+    ui->calendarWidget->setSelectedDate(ui->cwidget->getCurrDate());
+}
+
+void MainWindow::CalendarDate_clicked()
+{
+    ui->cwidget->setCurrDay(ui->calendarWidget->selectedDate());
 }

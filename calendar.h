@@ -24,6 +24,7 @@ public slots:
   void addTask(bool doDraw = true);
   void setCurrDay(QDate d,bool doDraw = true);
   void setCurrDay(Day *day,bool doDraw = true);
+  QDate getCurrDate();
   void setCurrTask(int);
   void setTname(QString n = "новая задача");
   void setTstartH(int s);

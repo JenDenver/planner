@@ -97,10 +97,20 @@ void calendar::editTask(Task *t)
         setCurrDay(found);
         t->setDate(t_date);
     }
-    if (ParList[2])
+    if (ParList[2] && (t->getStart() != t_start))
+    {
+        Day *found  = findDay(t->getDate());
+        found->removeTask(t);
         t->setStart(t_start);
-    if (ParList[3])
+        found->setTask(t);
+    }
+    if (ParList[3] && (t->getLength() != t_length))
+    {
+        Day *found  = findDay(t->getDate());
+        found->removeTask(t);
         t->setLength(t_length);
+        found->setTask(t);
+    }
     if (ParList[4])
         t->setColor(t_color);
     calendar::draw();
@@ -233,4 +243,9 @@ void calendar::draw(bool firstDraw)
 void calendar::setPar(int i,bool b)
 {
     ParList[i]= b;
+}
+
+QDate calendar::getCurrDate()
+{
+    return currDay->getDate();
 }

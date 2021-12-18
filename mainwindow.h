@@ -35,6 +35,7 @@ private slots:
     void LengthHourEdit_changed();
     void LengthMinuteEdit_changed();
     void SaveButton_clicked();
+    void CalendarDate_clicked();
 private:
     Ui::MainWindow *ui;
 
