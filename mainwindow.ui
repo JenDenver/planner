@@ -16,23 +16,47 @@
   <widget class="QWidget" name="centralwidget">
    <layout class="QGridLayout" name="gridLayout">
     <item row="1" column="0">
+     <widget class="QPushButton" name="TodayButton">
+      <property name="text">
+       <string>Открыть расписание на сегодня</string>
+      </property>
+     </widget>
+    </item>
+    <item row="0" column="0">
+     <widget class="QCalendarWidget" name="calendarWidget"/>
+    </item>
+    <item row="2" column="0">
      <widget class="QPushButton" name="NewTaskButton">
       <property name="text">
        <string>Новая задача</string>
       </property>
      </widget>
     </item>
-    <item row="0" column="1" rowspan="6">
-     <widget class="calendar" name="cwidget" native="true">
-      <property name="sizePolicy">
-       <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
-        <horstretch>0</horstretch>
-        <verstretch>0</verstretch>
-       </sizepolicy>
-      </property>
-     </widget>
-    </item>
     <item row="3" column="0">
+     <layout class="QHBoxLayout" name="horizontalLayout_2">
+      <item>
+       <widget class="QPushButton" name="EditButton">
+        <property name="enabled">
+         <bool>false</bool>
+        </property>
+        <property name="text">
+         <string>Изменить задачу</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="DeleteButton">
+        <property name="enabled">
+         <bool>false</bool>
+        </property>
+        <property name="text">
+         <string>Удалить задачу</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </item>
+    <item row="4" column="0" rowspan="3">
      <layout class="QVBoxLayout" name="EditLayout">
       <item>
        <layout class="QHBoxLayout" name="horizontalLayout_4">
@@ -428,32 +452,15 @@
       </item>
      </layout>
     </item>
-    <item row="0" column="0">
-     <widget class="QCalendarWidget" name="calendarWidget"/>
-    </item>
-    <item row="2" column="0">
-     <layout class="QHBoxLayout" name="horizontalLayout_2">
-      <item>
-       <widget class="QPushButton" name="EditButton">
-        <property name="enabled">
-         <bool>false</bool>
-        </property>
-        <property name="text">
-         <string>Изменить задачу</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QPushButton" name="DeleteButton">
-        <property name="enabled">
-         <bool>false</bool>
-        </property>
-        <property name="text">
-         <string>Удалить задачу</string>
-        </property>
-       </widget>
-      </item>
-     </layout>
+    <item row="0" column="1" rowspan="4">
+     <widget class="calendar" name="cwidget" native="true">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
+     </widget>
     </item>
    </layout>
   </widget>
@@ -470,11 +477,9 @@
     <property name="title">
      <string>меню</string>
     </property>
-    <addaction name="SaveAction"/>
     <addaction name="LoadAction"/>
     <addaction name="separator"/>
     <addaction name="ClearAction"/>
-    <addaction name="SaveExitAction"/>
     <addaction name="ExitAction"/>
    </widget>
    <addaction name="menuF"/>
@@ -492,7 +497,7 @@
   </action>
   <action name="LoadAction">
    <property name="text">
-    <string>загрузить</string>
+    <string>загрузить из файла</string>
    </property>
   </action>
   <action name="SaveExitAction">
@@ -502,12 +507,12 @@
   </action>
   <action name="ClearAction">
    <property name="text">
-    <string>очистить</string>
+    <string>очистить календарь</string>
    </property>
   </action>
   <action name="ExitAction">
    <property name="text">
-    <string>выход без сохранения</string>
+    <string>выход</string>
    </property>
   </action>
  </widget>

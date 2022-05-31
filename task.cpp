@@ -3,8 +3,9 @@
 #include "task.h"
 
 
-    Task::Task(QString n, QDate d, int s, int l, QColor c)
+    Task::Task(int i, QString n, int s, int l, QDate d, QColor c)
     {
+        ID = i;
         name = n;
         start = s;
         length = l;
@@ -50,4 +51,8 @@
     QColor Task::getColor()
     {
         return color;
+    }
+    int Task::getID()
+    {
+        return ID;
     }

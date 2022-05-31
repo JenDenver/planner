@@ -5,7 +5,7 @@
 class Task
 {
 public:
-    Task(QString, QDate, int, int, QColor);
+    Task(int, QString, int, int, QDate, const QColor);
     void setName(QString n);
     QString getName();
     void setStart(int s);
@@ -20,7 +20,9 @@ public:
     {
             return (t1.name==t2.name);
     }
+    int getID();
 private:
+    int ID;
     QString name;
     int start;
     int length;

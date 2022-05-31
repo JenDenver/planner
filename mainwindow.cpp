@@ -3,6 +3,8 @@
 #include "calendar.h"
 #include "QVBoxLayout"
 #include <QColorDialog>
+#include <QCloseEvent>
+#include <QMessageBox>
 
 
 MainWindow::MainWindow(QWidget *parent)
@@ -12,13 +14,12 @@ MainWindow::MainWindow(QWidget *parent)
     ui->setupUi(this);
     hideForm();
 
-    connect(ui->SaveExitAction, &QAction::triggered, this, &MainWindow::SaveExitAction_clicked);
     connect(ui->ExitAction, &QAction::triggered, this, &MainWindow::close);
     connect(ui->LoadAction, &QAction::triggered, ui->cwidget, &calendar::load);
-    connect(ui->SaveAction, &QAction::triggered, ui->cwidget, &calendar::save);
     connect(ui->ClearAction, &QAction::triggered, ui->cwidget, &calendar::clear);
     connect(ui->cwidget, &QTableWidget::cellClicked, this, &MainWindow::on_cWidget_cellClicked);
     connect(this, &MainWindow::MW_setCurrTask, ui->cwidget, &calendar::setCurrTask);
+    connect(ui->TodayButton, &QPushButton::clicked, this, &MainWindow::TodayButton_Clicked);
     connect(ui->EditButton, &QPushButton::clicked, this, &MainWindow::EditButton_Clicked);
     connect(ui->DeleteButton, &QPushButton::clicked, this, &MainWindow::DeleteButton_Clicked);
     connect(ui->NewTaskButton, &QPushButton::clicked, this, &MainWindow::NewTask_Clicked);
@@ -36,11 +37,6 @@ MainWindow::MainWindow(QWidget *parent)
 MainWindow::~MainWindow()
 {
     delete ui;
-}
-void MainWindow::SaveExitAction_clicked()
-{
-    ui->cwidget->save();
-    MainWindow::close();
 }
 
 void MainWindow::hideForm()
@@ -78,8 +74,8 @@ void MainWindow::NewTask_Clicked()
     showForm();
     ui->cwidget->setCurrTask(-1);
 
-    ui->DateEdit->setDate(QDate::currentDate());
-    ui->cwidget->setTdate(QDate::currentDate());
+    ui->DateEdit->setDate(ui->cwidget->getCurrDate());
+    ui->cwidget->setTdate(ui->cwidget->getCurrDate());
     ui->NameEdit->setText("новая задача");
     ui->cwidget->setTname("новая задача");
     ui->StartHourEdit->setCurrentIndex(QTime::currentTime().hour());
@@ -89,6 +85,11 @@ void MainWindow::NewTask_Clicked()
     ui->EditButton->setEnabled(false);
     ui->DeleteButton->setEnabled(false);
     ui->SaveTaskButton->setEnabled(true);
+}
+void MainWindow::TodayButton_Clicked()
+{
+    ui->cwidget->setCurrDay(QDate::currentDate());
+    ui->calendarWidget->setSelectedDate(ui->cwidget->getCurrDate());
 }
 void MainWindow::EditButton_Clicked()
 {
@@ -110,12 +111,15 @@ void MainWindow::EditButton_Clicked()
 }
 void MainWindow::DeleteButton_Clicked()
 {
-    ui->cwidget->deleteTask();
-    hideForm();
-    ui->EditButton->setEnabled(false);
-    ui->DeleteButton->setEnabled(false);
-    ui->SaveTaskButton->setEnabled(false);
-
+    int n=QMessageBox::information(0,"Подтвердите действие","Удалить задачу?", "Да", "Нет", QString(), 1, 1 );
+    if (n==0)
+    {
+        ui->cwidget->deleteTask();
+        hideForm();
+        ui->EditButton->setEnabled(false);
+        ui->DeleteButton->setEnabled(false);
+        ui->SaveTaskButton->setEnabled(false);
+    }
 }
 void MainWindow::on_cWidget_cellClicked(int row, int column)
 {
@@ -177,17 +181,37 @@ void MainWindow::LengthMinuteEdit_changed()
 void MainWindow::SaveButton_clicked()
 {
     ui->calendarWidget->setSelectedDate(ui->cwidget->getCurrDate());
+    int n{0};
     if (ui->cwidget->getCurrTask()==nullptr)
-        ui->cwidget->addTask();
+        n=ui->cwidget->addTask();
     else
-        ui->cwidget->editTask(ui->cwidget->getCurrTask());
-    hideForm();
-    for (int i=0; i<5; i++)
+        n=ui->cwidget->editTask(ui->cwidget->getCurrTask());
+    if (n==0)
+    {
+        hideForm();
+        for (int i=0; i<5; i++)
         ui->cwidget->setPar(i,false);
-    ui->calendarWidget->setSelectedDate(ui->cwidget->getCurrDate());
+        ui->calendarWidget->setSelectedDate(ui->cwidget->getCurrDate());
+    }
 }
 
 void MainWindow::CalendarDate_clicked()
 {
     ui->cwidget->setCurrDay(ui->calendarWidget->selectedDate());
+}
+
+void MainWindow::closeEvent(QCloseEvent *event)
+{
+    event->ignore();
+    QMessageBox ms;
+
+    QAbstractButton *yes = ms.addButton("Да",QMessageBox::YesRole);
+    QAbstractButton *no = ms.addButton("Нет",QMessageBox::NoRole);
+    ms.setWindowTitle("Выход");
+    ms.setText("Вы уверены, что хотите выйти?");
+    ms.exec();
+    if(ms.clickedButton() == yes)
+        event->accept();
+
+
 }

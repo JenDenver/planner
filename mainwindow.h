@@ -22,8 +22,8 @@ signals:
 private slots:
     void hideForm();
     void showForm();
-    void SaveExitAction_clicked();
     void on_cWidget_cellClicked(int, int);
+    void TodayButton_Clicked();
     void EditButton_Clicked();
     void DeleteButton_Clicked();
     void NewTask_Clicked();
@@ -38,6 +38,7 @@ private slots:
     void CalendarDate_clicked();
 private:
     Ui::MainWindow *ui;
+    void closeEvent(QCloseEvent *event);
 
 };
 #endif // MAINWINDOW_H
