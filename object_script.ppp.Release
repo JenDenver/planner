@@ -1,0 +1,10 @@
+release/calendar.o
+release/day.o
+release/goal.o
+release/goalmanager.o
+release/main.o
+release/mainwindow.o
+release/task.o
+release/moc_calendar.o
+release/moc_goalmanager.o
+release/moc_mainwindow.o

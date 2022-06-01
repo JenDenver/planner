@@ -18,6 +18,7 @@ public:
   void setTable();
   Day *findDay(QDate d);
   Task* getCurrTask();
+  Task *findTaskByID(int);
 public slots:
   void clear();
   void deleteTask();
@@ -42,11 +43,11 @@ public slots:
   void updateDB(Task *);
   void deleteFromBD(int);
 private:
-  QString t_name = "Новая задача";
-  QDate t_date = QDate::currentDate();
-  int t_start = 0;
-  int t_length = 1;
-  QColor t_color = Qt::blue;
+  QString t_taskname = "Новая задача";
+  QDate t_taskdate = QDate::currentDate();
+  int t_taskstart = 0;
+  int t_tasklength = 1;
+  QColor t_taskcolor = Qt::blue;
   QList<bool> ParList{false,false,false,false,false};  //name, date, start, length, color
   QList<Task*> tasklist;
   QList<Day*> daylist;

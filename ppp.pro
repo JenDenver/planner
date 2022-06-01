@@ -11,6 +11,8 @@ CONFIG += c++11
 SOURCES += \
     calendar.cpp \
     day.cpp \
+    goal.cpp \
+    goalmanager.cpp \
     main.cpp \
     mainwindow.cpp \
     task.cpp
@@ -18,6 +20,8 @@ SOURCES += \
 HEADERS += \
     calendar.h \
     day.h \
+    goal.h \
+    goalmanager.h \
     mainwindow.h \
     task.h
 

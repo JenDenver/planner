@@ -13,7 +13,8 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
     hideForm();
-
+    layout2hide();
+    layout3hide();
     connect(ui->ExitAction, &QAction::triggered, this, &MainWindow::close);
     connect(ui->LoadAction, &QAction::triggered, ui->cwidget, &calendar::load);
     connect(ui->ClearAction, &QAction::triggered, ui->cwidget, &calendar::clear);
@@ -32,6 +33,18 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->LengthMinuteEdit,&QComboBox::currentTextChanged, this, &MainWindow::LengthMinuteEdit_changed);
     connect(ui->SaveTaskButton,&QPushButton::clicked, this, &MainWindow::SaveButton_clicked);
     connect(ui->calendarWidget,&QCalendarWidget::clicked,this, &MainWindow::CalendarDate_clicked);
+
+    connect(ui->EditGoalButton,&QPushButton::clicked, this, &MainWindow::on_EditGoalButton_clicked);
+    connect(ui->DeleteGoalButton,&QPushButton::clicked, this, &MainWindow::DeleteGoalButton_clicked);
+    connect(ui->goalWidget->table1, &QTableWidget::cellClicked, this, &MainWindow::goal1_cellClicked);
+    connect(ui->goalWidget->table2, &QTableWidget::cellClicked, this, &MainWindow::goal2_cellClicked);
+    connect(ui->goalWidget->table3, &QTableWidget::cellClicked, this, &MainWindow::goal3_cellClicked);
+    connect(ui->goalWidget->table4, &QTableWidget::cellClicked, this, &MainWindow::goal4_cellClicked);
+    connect(this, &MainWindow::MW_setCurrentGoal, ui->goalWidget, &goalManager::setCurrentGoal);
+    connect(ui->GoalNameEdit,&QLineEdit::editingFinished, this, &MainWindow::GoalNameEdit_changed);
+    connect(ui->GoalChooseColor,&QPushButton::clicked, this, &MainWindow::GoalChooseColor_clicked);
+    connect(ui->GoalPriorityEdit,&QComboBox::currentTextChanged, this, &MainWindow::GoalPriorityEdit_changed);
+    connect(ui->GoalSaveButton,&QPushButton::clicked, this, &MainWindow::GoalSaveButton_clicked);
 }
 
 MainWindow::~MainWindow()
@@ -68,6 +81,40 @@ void MainWindow::showForm()
     ui->StartLabel->show();
     ui->LengthLabel->show();
     ui->SaveTaskButton->show();
+}
+void MainWindow::layout2hide()
+{
+    ui->GoalNameLabel->hide();
+    ui->GoalNameEdit->hide();
+    ui->GoalColorLabel->hide();
+    ui->GoalChooseColor->hide();
+    ui->GoalPriorityLabel->hide();
+    ui->GoalPriorityEdit->hide();
+    ui->GoalSaveButton->hide();
+}
+void MainWindow::layout2show()
+{
+    ui->GoalNameLabel->show();
+    ui->GoalNameEdit->show();
+    ui->GoalColorLabel->show();
+    ui->GoalChooseColor->show();
+    ui->GoalPriorityLabel->show();
+    ui->GoalPriorityEdit->show();
+    ui->GoalSaveButton->show();
+}
+void MainWindow::layout3hide()
+{
+    ui->AppointmentLabel->hide();
+    ui->AppointmentText->hide();
+    ui->GoalOpenInCalButton->hide();
+
+}
+void MainWindow::layout3show()
+{
+    ui->AppointmentLabel->show();
+    ui->AppointmentText->show();
+    ui->GoalOpenInCalButton->show();
+
 }
 void MainWindow::NewTask_Clicked()
 {
@@ -194,7 +241,6 @@ void MainWindow::SaveButton_clicked()
         ui->calendarWidget->setSelectedDate(ui->cwidget->getCurrDate());
     }
 }
-
 void MainWindow::CalendarDate_clicked()
 {
     ui->cwidget->setCurrDay(ui->calendarWidget->selectedDate());
@@ -214,4 +260,85 @@ void MainWindow::closeEvent(QCloseEvent *event)
         event->accept();
 
 
+}
+void MainWindow::goal1_cellClicked(int row, int column)
+{
+    emit MW_setCurrentGoal(0,row);
+    QString s = ui->goalWidget->getCurrentGoal()->getName();
+    ui->GoalNameEdit->setText(s);
+
+    ui->EditGoalButton->setEnabled(true);
+    ui->DeleteGoalButton->setEnabled(true);
+}
+void MainWindow::goal2_cellClicked(int row, int column)
+{
+    emit MW_setCurrentGoal(1,row);
+    QString s = ui->goalWidget->getCurrentGoal()->getName();
+    ui->GoalNameEdit->setText(s);
+    ui->EditGoalButton->setEnabled(true);
+    ui->DeleteGoalButton->setEnabled(true);
+}
+void MainWindow::goal3_cellClicked(int row, int column)
+{
+    emit MW_setCurrentGoal(2,row);
+    QString s = ui->goalWidget->getCurrentGoal()->getName();
+    ui->GoalNameEdit->setText(s);
+    ui->EditGoalButton->setEnabled(true);
+    ui->DeleteGoalButton->setEnabled(true);
+}
+void MainWindow::goal4_cellClicked(int row, int column)
+{
+    emit MW_setCurrentGoal(3,row);
+    QString s = ui->goalWidget->getCurrentGoal()->getName();
+    ui->GoalNameEdit->setText(s);
+    ui->EditGoalButton->setEnabled(true);
+    ui->DeleteGoalButton->setEnabled(true);
+}
+void MainWindow::on_EditGoalButton_clicked()
+{
+    layout2show();
+
+}
+void MainWindow::DeleteGoalButton_clicked()
+{
+    temp ++;
+    int n=QMessageBox::information(0,"Подтвердите действие","Удалить задачу?", "Да", "Нет", QString(), 1, 1 );
+    if (n==0)
+    {
+        ui->goalWidget->deleteGoal();
+        layout2hide();
+        ui->EditGoalButton->setEnabled(false);
+        ui->DeleteGoalButton->setEnabled(false);
+        ui->GoalSaveButton->setEnabled(false);
+    }
+}
+void MainWindow::GoalNameEdit_changed()
+{
+    ui->goalWidget->setTname(ui->GoalNameEdit->text());
+    ui->goalWidget->setPar(0,true);
+}
+void MainWindow::GoalChooseColor_clicked()
+{
+    QColor c = QColorDialog::getColor(Qt::blue, this);
+    ui->goalWidget->setTcolor(c);
+    ui->goalWidget->setPar(1,true);
+}
+void MainWindow::GoalPriorityEdit_changed()
+{
+    ui->goalWidget->setTpriority(ui->GoalPriorityEdit->currentText().toInt());
+    ui->goalWidget->setPar(2,true);
+}
+void MainWindow::GoalSaveButton_clicked()
+{
+    int n{0};
+    if (ui->goalWidget->getCurrentGoal()==nullptr);
+        //n=ui->goalWidget->addGoal();
+    else
+        n=ui->goalWidget->editGoal(ui->goalWidget->getCurrentGoal());
+    if (n==0)
+    {
+        layout2hide();
+        for (int i=0; i<3; i++)
+        ui->cwidget->setPar(i,false);
+    }
 }

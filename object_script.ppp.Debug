@@ -1,0 +1,10 @@
+debug/calendar.o
+debug/day.o
+debug/goal.o
+debug/goalmanager.o
+debug/main.o
+debug/mainwindow.o
+debug/task.o
+debug/moc_calendar.o
+debug/moc_goalmanager.o
+debug/moc_mainwindow.o

@@ -76,31 +76,44 @@ Day *calendar::findDay(QDate date) //creates day if doesn't exist
 }
 void calendar::setTname(QString n)
 {
-    t_name = n;
+    t_taskname = n;
 }
 void calendar::setTstartH(int s)
 {
-    t_start = s*2;
+    t_taskstart = s*2;
 }
 void calendar::setTstartM(int s)
 {
-    if (s==30) t_start++;
+    if (s==30) t_taskstart++;
 }
 void calendar::setTlengthH(int l)
 {
-    t_length = l*2;
+    t_tasklength = l*2;
 }
 void calendar::setTlengthM(int l)
 {
-    if (l==30) t_length++;
+    if (l==30) t_tasklength++;
 }
 void calendar::setTdate(QDate d)
 {
-    t_date = d;
+    t_taskdate = d;
 }
 void calendar::setTcolor(QColor s)
 {
-    t_color = s;
+    t_taskcolor = s;
+}
+Task * calendar::findTaskByID(int id)
+{
+    Task* task = nullptr;
+    for (auto& x : tasklist)
+    {
+        if (x->getID() == id)
+        {
+            task = x;
+            break;
+        }
+    }
+    return task;
 }
 int calendar::addToDB(QString name, int start, int length, QDate date, QColor color)
 {
@@ -174,28 +187,28 @@ void calendar::deleteTask()
 int calendar::editTask(Task *t)
 {
     if (ParList[0])
-        t->setName(t_name);
-    if (ParList[1]&& (t->getDate() != t_date))
+        t->setName(t_taskname);
+    if (ParList[1]&& (t->getDate() != t_taskdate))
     {
         Day *found  = findDay(t->getDate());
         found->removeTask(t);
-        found = findDay(t_date);
+        found = findDay(t_taskdate);
         found->setTask(t);
         setCurrDay(found);
-        t->setDate(t_date);
+        t->setDate(t_taskdate);
     }
-    if (ParList[2] && (t->getStart() != t_start))
+    if (ParList[2] && (t->getStart() != t_taskstart))
     {
         Day *found  = findDay(t->getDate());
         found->removeTask(t);
-        t->setStart(t_start);
+        t->setStart(t_taskstart);
         found->setTask(t);
     }
-    if (ParList[3] && (t->getLength() != t_length))
+    if (ParList[3] && (t->getLength() != t_tasklength))
     {
-        if (t_start+t_length>48)
-            t_length=48-t_start;
-        if (t_length==0)
+        if (t_taskstart+t_tasklength>48)
+            t_tasklength=48-t_taskstart;
+        if (t_tasklength==0)
         {
             int n = QMessageBox::information(0,"Ошибка!","Нельзя создать задание нулевой длины!", "ОК", QString(), QString(), 0, 0 );
             return -1;
@@ -204,34 +217,34 @@ int calendar::editTask(Task *t)
         {
         Day *found  = findDay(t->getDate());
         found->removeTask(t);
-        t->setLength(t_length);
+        t->setLength(t_tasklength);
         found->setTask(t);
         }
     }
     if (ParList[4])
-        t->setColor(t_color);
+        t->setColor(t_taskcolor);
     updateDB(t);
     calendar::draw();
     return 0;
 }
 int calendar::addTask(bool doDraw)
 {
-    if (t_color == "000000")
-        t_color = "FDFDFD";
-    if (t_start+t_length>48)
-        t_length=48-t_start;
-    if (t_length==0)
+    if (t_taskcolor == "000000")
+        t_taskcolor = "FDFDFD";
+    if (t_taskstart+t_tasklength>48)
+        t_tasklength=48-t_taskstart;
+    if (t_tasklength==0)
     {
         QMessageBox::information(0,"Ошибка!","Нельзя создать задание нулевой длины!", "ОК", QString(), QString(), 0, 0 );
         return -1;
     }
     else
     {
-        int id = addToDB(t_name, t_start, t_length, t_date, t_color);
+        int id = addToDB(t_taskname, t_taskstart, t_tasklength, t_taskdate, t_taskcolor);
         if (id!=0)
         {
-            tasklist.push_front(new Task(id, t_name, t_start, t_length, t_date, t_color));
-            Day  *found = findDay(t_date);
+            tasklist.push_front(new Task(id, t_taskname, t_taskstart, t_tasklength, t_taskdate, t_taskcolor));
+            Day  *found = findDay(t_taskdate);
             currDay = found;
             found->setTask(tasklist.front());
             if (doDraw)
@@ -366,14 +379,14 @@ QDate calendar::getCurrDate()
       fields = x.split(" ");
       if (fields[0] == "\n")
           continue;
-      t_name = fields[0];
-      t_date = QDate::fromString(fields[1],"yyyy.MM.dd");
-      t_start = fields[2].toInt();
-      t_length = fields[3].toInt();
+      ->t_taskname = fields[0];
+      t_taskdate = QDate::fromString(fields[1],"yyyy.MM.dd");
+      t_taskstart = fields[2].toInt();
+      t_tasklength = fields[3].toInt();
       red = fields[4].toInt();
       green = fields[5].toInt();
       blue = fields[6].toInt();
-      t_color.setRgb(red,green,blue);
+      t_taskcolor.setRgb(red,green,blue);
       addTask(false);
     }
     file.close();
