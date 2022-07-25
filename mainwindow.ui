@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>800</width>
-    <height>600</height>
+    <height>608</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -539,7 +539,7 @@
             <item>
              <widget class="QPushButton" name="NewGoalButton">
               <property name="text">
-               <string>Новое дело</string>
+               <string>Новое дело(TODO)</string>
               </property>
              </widget>
             </item>
@@ -714,10 +714,28 @@
     </property>
     <addaction name="LoadAction"/>
     <addaction name="separator"/>
-    <addaction name="ClearAction"/>
     <addaction name="ExitAction"/>
    </widget>
+   <widget class="QMenu" name="menu">
+    <property name="title">
+     <string>календарь</string>
+    </property>
+    <addaction name="ClearAction"/>
+    <addaction name="action_TODO"/>
+   </widget>
+   <widget class="QMenu" name="menu_2">
+    <property name="title">
+     <string>задачи</string>
+    </property>
+    <addaction name="action_3"/>
+    <addaction name="action_1_TODO"/>
+    <addaction name="action_2_TODO"/>
+    <addaction name="action_3_TODO"/>
+    <addaction name="action_4_TODO"/>
+   </widget>
    <addaction name="menuF"/>
+   <addaction name="menu"/>
+   <addaction name="menu_2"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
   <action name="actionopen">
@@ -748,6 +766,36 @@
   <action name="ExitAction">
    <property name="text">
     <string>выход</string>
+   </property>
+  </action>
+  <action name="action_3">
+   <property name="text">
+    <string>очистить задачи(TODO)</string>
+   </property>
+  </action>
+  <action name="action_1_TODO">
+   <property name="text">
+    <string>очистить список №1(TODO)</string>
+   </property>
+  </action>
+  <action name="action_2_TODO">
+   <property name="text">
+    <string>очистить список №2(TODO)</string>
+   </property>
+  </action>
+  <action name="action_3_TODO">
+   <property name="text">
+    <string>очистить список №3(TODO)</string>
+   </property>
+  </action>
+  <action name="action_4_TODO">
+   <property name="text">
+    <string>очистить список №4(TODO)</string>
+   </property>
+  </action>
+  <action name="action_TODO">
+   <property name="text">
+    <string>очистить выбранный день(TODO)</string>
    </property>
   </action>
  </widget>

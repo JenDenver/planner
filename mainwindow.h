@@ -41,6 +41,7 @@ private slots:
     void CalendarDate_clicked();
 
     void on_EditGoalButton_clicked();
+    void on_NewGoalButton_clicked();
     void layout2hide();
     void layout2show();
     void layout3hide();

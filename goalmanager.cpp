@@ -157,6 +157,8 @@ Goal* goalManager::getCurrentGoal()
 }*/
 void goalManager::setCurrentGoal(int n, int row)
 {
+    if (n==-1)
+        currentGoal = nullptr;
     currentGoal = lists[n][row];
 }
 void goalManager::deleteGoal()
@@ -225,4 +227,37 @@ void goalManager::updateDB(Goal *g)
     query->prepare(q);
     if (!query->exec())
         QMessageBox::warning(this, "Error", "ошибка сохранения в БД!");
+}
+int goalManager::addToDB(QString name, QColor color, int priority) //needs testing, don't work!!
+{
+    QSqlQuery *query = new QSqlQuery(db);
+    QString q;
+    q="INSERT INTO goals (name, color, priority) VALUES ('%1', '%2', '%3')";
+    q=q.arg(name).
+        arg(color.name()).
+        arg(priority);
+    query->prepare(q);
+    if (!query->exec())
+        QMessageBox::warning(this, "Error", "ошибка сохранения в БД!");
+    return query->lastInsertId().toInt();
+}
+int goalManager::addGoal() //needs testing, don't work!!
+{
+    int id = addToDB(t_goalname, t_goalcolor, t_goalpriority);
+    switch (t_goalpriority)
+    {
+    case 1:
+        goalList_1.push_back(new Goal(id, 0, t_goalname, t_goalcolor, t_goalpriority));
+        break;
+    case 2:
+        goalList_2.push_back(new Goal(id, 0, t_goalname, t_goalcolor, t_goalpriority));
+        break;
+    case 3:
+        goalList_3.push_back(new Goal(id, 0, t_goalname, t_goalcolor, t_goalpriority));
+        break;
+    case 4:
+        goalList_4.push_back(new Goal(id, 0, t_goalname, t_goalcolor, t_goalpriority));
+        break;
+    }
+    draw();
 }

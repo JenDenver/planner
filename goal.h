@@ -17,8 +17,8 @@ public:
     int getID();
     int getTaskID();
 private:
-    int id;
-    int task_id;
+    int id; //id этой задачи
+    int task_id; // id связанной задачи в расписании (TODO)
     QString name;
     QColor color;
     int priority;

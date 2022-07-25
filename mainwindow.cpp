@@ -35,6 +35,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->calendarWidget,&QCalendarWidget::clicked,this, &MainWindow::CalendarDate_clicked);
 
     connect(ui->EditGoalButton,&QPushButton::clicked, this, &MainWindow::on_EditGoalButton_clicked);
+    connect(ui->NewGoalButton,&QPushButton::clicked, this, &MainWindow::on_NewGoalButton_clicked);
     connect(ui->DeleteGoalButton,&QPushButton::clicked, this, &MainWindow::DeleteGoalButton_clicked);
     connect(ui->goalWidget->table1, &QTableWidget::cellClicked, this, &MainWindow::goal1_cellClicked);
     connect(ui->goalWidget->table2, &QTableWidget::cellClicked, this, &MainWindow::goal2_cellClicked);
@@ -299,6 +300,21 @@ void MainWindow::on_EditGoalButton_clicked()
     layout2show();
 
 }
+void MainWindow::on_NewGoalButton_clicked()
+{
+    layout2show();
+    ui->cwidget->setCurrTask(-1);
+
+    ui->GoalNameEdit->setText("новая задача");
+    ui->goalWidget->setTname("новая задача");
+    ui->goalWidget->setTcolor("FFFFFF");
+    ui->goalWidget->setTpriority(1);
+
+    ui->EditGoalButton->setEnabled(false);
+    ui->DeleteGoalButton->setEnabled(false);
+    ui->GoalSaveButton->setEnabled(true);
+
+}
 void MainWindow::DeleteGoalButton_clicked()
 {
     temp ++;
@@ -331,8 +347,8 @@ void MainWindow::GoalPriorityEdit_changed()
 void MainWindow::GoalSaveButton_clicked()
 {
     int n{0};
-    if (ui->goalWidget->getCurrentGoal()==nullptr);
-        //n=ui->goalWidget->addGoal();
+    if (ui->goalWidget->getCurrentGoal()==nullptr)
+        n=ui->goalWidget->addGoal();
     else
         n=ui->goalWidget->editGoal(ui->goalWidget->getCurrentGoal());
     if (n==0)

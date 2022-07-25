@@ -25,13 +25,13 @@ class goalManager:public QWidget
    // void clear();
     void deleteGoal();
     int editGoal(Goal *);
-   // int addGoal(bool doDraw = true);
+    int addGoal();
     //void setCurrentGoal(Goal*);
     void setCurrentGoal(int,int);
    // void load();
     void connect(QString s="./planDB.db");
     void parseDB();
-    //int addToDB();
+    int addToDB(QString, QColor, int);
     void updateDB(Goal *);
     int deleteFromBD(int);      //возвращает №таблицы(приоритет)
     void setTname(QString);
